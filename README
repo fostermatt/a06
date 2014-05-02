@@ -1,0 +1,20 @@
+CS 302 - Assingment 6
+
+1. (100 points) In C implement a minheap for positive integers. Write a menu system that will have the following options:
+• Delete heap (erase the current heap and start over)
+• Build heap (erase the current heap then prompt for a single line separated by spaces containing
+values to insert in the heap and build the heap – do not do this by repeated insertion or you will
+lose points)
+• Insert element
+• Delete minimum element (print out the element to the screen first)
+• Find maximum element (do not scan the entire heap to find this or you will lose points)
+• Increase key (prompt for an index value and an amount to increase the key by)
+• Decrease key
+• Remove element (prompt for an index value)
+After each of these operations you should print the heap to the screen in multiple lines with the element values on top and indices under the elements with proper spacing. You may assume the input will never be more than 3 digit integers.
+Example:
+Values: 5 8 6 10127 100 Indices: 0 1 2 3 4 5 6
+Values:     11
+Indices:    7
+You may assume the heap will never be larger than 32 elements, so there is no need to resize, and this will help you in your output formatting. For extra credit, start the heap with 1 element and resize as appropriate.
+You may start the index at 1 instead of 0 if you wish (either the index will go from 0 to 31 or 1 to 32). Be sure to write an accompanying write-up detailing how your program works, the limitations of it, etc.
