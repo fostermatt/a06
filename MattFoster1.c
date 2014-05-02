@@ -7,9 +7,12 @@ Assignment 6
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+int deleteHeap(int**, int);
 /*
+
 void buildHeap();*/
-void insertElement(int*,int*,int*,int);/*
+int insertElement(int*,int,int);/*
 void deleteMin();
 void findMax();
 void increaseKey();
@@ -21,8 +24,8 @@ void printHeap(int*,int);
 int main(){
 	char* prompt = "Please choose an option\n(1) Delete Heap\n(2) Build Heap\n(3) Insert Element\n(4) Delete Minimum Element\n(5) Find Maximum Element\n(6) Increase Key\n(7) Decrease Key\n(8) Remove Element\n(9) Exit\n\nOption: ";
 	int* heap = (int*)malloc(sizeof(int));
-	int heapSize = 1,currIndex = 0, userSelect, temp1, temp2;
-	char inBuff[50];
+	int heapSize = 1, userSelect, temp1, temp2,i;
+	char inBuff[200];
 
 	while(true){ /*repeat until exit option received*/
 		printf("\n%s", prompt);
@@ -31,56 +34,76 @@ int main(){
 
 		switch(userSelect){
 			case 1: /*Delete Heap*/
-				printf("\nDelete Heap Selected\n");
-				free(heap);
-				heap = (int*)malloc(sizeof(int));
-				heapSize = 1;
-				currIndex = 0;
+				printf("\nHeap deleted\n");
+				heapSize = deleteHeap(&heap,heapSize);
 				break;
 			case 2: /*Build Heap*/
-				printf("\nBuild Heap selected\n");
+				printf("\nPlease enter numbers: ");
 				break;
 			case 3: /*Insert Element*/
-				printf("Please enter value to be inserted: ");
+				printf("\nPlease enter value to be inserted: ");
 				fgets(inBuff,sizeof(inBuff),stdin);
 				sscanf(inBuff,"%d",&temp1);
-				insertElement(heap,&heapSize,&currIndex,temp1);
+				heapSize = insertElement(heap,heapSize,temp1);
 				break;
 			case 4: /*Delete Minimum Element*/
-				printf("\nDelete Min Element selected\n");
 				break;
 			case 5: /*Find Maximum Element*/
-				printf("\nFind Max Element selected\n");
 				break;
 			case 6: /*Increase Key Value*/
-				printf("\nIncrease Key Value selected\n");
+				printf("\nPlease enter index of element to increase: ");
+				printf("\nPlease enter amount to increase element: ");
 				break;
 			case 7: /*Decrease Key Value*/
-				printf("\nDecrease Key Value selected\n");
+				printf("\nPlease enter index of element to decrease: ");
+				printf("\nPlease enter amount to decrease element: ");
 				break;
 			case 8: /*Remove elment*/
-				printf("\nRemove Element\n");
+				printf("\nPlease enter index of element to remove: ");
 				break;
 			case 9: /*Exit*/
-				printf("\nExit selected\n");
+				printf("\nGoodbye\n");
 				return 0;
 			default: /*Invalid Input*/
 				printf("Please choose a valid option\n");
 		}
+		printf("\n");
+		if(heapSize>1&&heap[0]!=0){
+			printf("\nValues:   ");
+			for(i=0;i<heapSize-1;i++){
+				printf("%6d", heap[i]);
+			}
+			printf("\nIndicies: ");
+			for(i=0;i<heapSize-1;i++){
+				printf("%6d", i);
+			}
+			printf("\n\n");
+		}
 		printHeap(heap,heapSize);
 	}
 }
-
-void insertElement(int *heap,int *heapSize,int *currIndex,int value){
-	heap[*currIndex]=value;
-	heapSize++;
-	currIndex++;
+int deleteHeap(int *heap[], int heapSize){
+	free(*heap);
+	*heap = (int*)malloc(sizeof(int));
+	heapSize=1;
+	*heap[heapSize-1]=0;
+	return heapSize;
+}
+int insertElement(int heap[], int heapSize, int value){
+	heap[heapSize-1] = value;
+	heapSize = heapSize + 1;
+	return heapSize;
 }
 
-void printHeap(int *heap, int heapSize){
+void printHeap(int heap[], int heapSize){
 	int i, j=0;
-	printf("Values:    %d\n", heap[0]);
-	printf("Indicies:  %d\n",0);
+	if(heapSize==1&&heap[0]==0){
+		printf("Heap is empty.\n");
+	}
+	else{
+		printf("Values:    %d\n", heap[0]);
+		printf("Indicies:  %d\n",0);
+	}
 }
 /*
 prompt for user input
