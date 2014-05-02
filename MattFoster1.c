@@ -22,13 +22,15 @@ void removeElement();
 void printHeap(int*,int);
 
 int main(){
-	char* prompt = "Please choose an option\n(1) Delete Heap\n(2) Build Heap\n(3) Insert Element\n(4) Delete Minimum Element\n(5) Find Maximum Element\n(6) Increase Key\n(7) Decrease Key\n(8) Remove Element\n(9) Exit\n\nOption: ";
+	char* prompt1 = "Please choose an option\n(1) Delete Heap\n(2) Build Heap\n(3) Insert Element\n";
+	char* prompt2 = "(4) Delete Minimum Element\n(5) Find Maximum Element\n(6) Increase Key\n";
+	char* prompt3 = "(7) Decrease Key\n(8) Remove Element\n(9) Exit\n\nOption: ";
 	int* heap = (int*)malloc(sizeof(int));
 	int heapSize = 1, userSelect, temp1, temp2,i;
 	char inBuff[200];
 
 	while(true){ /*repeat until exit option received*/
-		printf("\n%s", prompt);
+		printf("\n%s%s%s", prompt1,prompt2,prompt3);
 		fgets(inBuff,sizeof(inBuff),stdin);
 		sscanf(inBuff,"%d",&userSelect);
 
@@ -58,7 +60,7 @@ int main(){
 				printf("\nPlease enter index of element to decrease: ");
 				printf("\nPlease enter amount to decrease element: ");
 				break;
-			case 8: /*Remove elment*/
+			case 8: /*Remove element*/
 				printf("\nPlease enter index of element to remove: ");
 				break;
 			case 9: /*Exit*/
