@@ -8,26 +8,29 @@ Assignment 6
 #include <string.h>
 #include <stdbool.h>
 
-int deleteHeap(int**, int);
-/*
-
-void buildHeap();*/
-int insertElement(int*,int,int);/*
+int deleteHeap(int*);
+void buildHeap();
+int insertElement(int*, int, int);
 void deleteMin();
 void findMax();
 void increaseKey();
 void decreaseKey();
 void removeElement();
-*/
 void printHeap(int*,int);
+void percUp(int*,int);
+void percDown(int*,int);
 
 int main(){
 	char* prompt1 = "Please choose an option\n(1) Delete Heap\n(2) Build Heap\n(3) Insert Element\n";
 	char* prompt2 = "(4) Delete Minimum Element\n(5) Find Maximum Element\n(6) Increase Key\n";
 	char* prompt3 = "(7) Decrease Key\n(8) Remove Element\n(9) Exit\n\nOption: ";
-	int* heap = (int*)malloc(sizeof(int));
-	int heapSize = 1, userSelect, temp1, temp2,i;
+	int currIndex = 1; /*current empty element*/
+	int userSelect, temp1, temp2,i;
 	char inBuff[200];
+	int heap[33];
+	for(i=0; i<32; i++){
+		heap[i]=0;
+	}
 
 	while(true){ /*repeat until exit option received*/
 		printf("\n%s%s%s", prompt1,prompt2,prompt3);
@@ -37,7 +40,7 @@ int main(){
 		switch(userSelect){
 			case 1: /*Delete Heap*/
 				printf("\nHeap deleted\n");
-				heapSize = deleteHeap(&heap,heapSize);
+				currIndex = deleteHeap(heap);
 				break;
 			case 2: /*Build Heap*/
 				printf("\nPlease enter numbers: ");
@@ -46,7 +49,7 @@ int main(){
 				printf("\nPlease enter value to be inserted: ");
 				fgets(inBuff,sizeof(inBuff),stdin);
 				sscanf(inBuff,"%d",&temp1);
-				heapSize = insertElement(heap,heapSize,temp1);
+				currIndex = insertElement(heap,currIndex,temp1);
 				break;
 			case 4: /*Delete Minimum Element*/
 				break;
@@ -70,43 +73,117 @@ int main(){
 				printf("Please choose a valid option\n");
 		}
 		printf("\n");
-		if(heapSize>1&&heap[0]!=0){
-			printf("\nValues:   ");
-			for(i=0;i<heapSize-1;i++){
-				printf("%6d", heap[i]);
-			}
-			printf("\nIndicies: ");
-			for(i=0;i<heapSize-1;i++){
-				printf("%6d", i);
-			}
-			printf("\n\n");
-		}
-		printHeap(heap,heapSize);
+		printHeap(heap,currIndex);
 	}
 }
-int deleteHeap(int *heap[], int heapSize){
-	free(*heap);
-	*heap = (int*)malloc(sizeof(int));
-	heapSize=1;
-	*heap[heapSize-1]=0;
-	return heapSize;
+int deleteHeap(int heap[]){
+	int i;
+	for(i=0;i<32;i++){
+		heap[i]=0;
+	}
+	return 0;
 }
-int insertElement(int heap[], int heapSize, int value){
-	heap[heapSize-1] = value;
-	heapSize = heapSize + 1;
-	return heapSize;
+void buildHeap(){
+
 }
 
-void printHeap(int heap[], int heapSize){
-	int i, j=0;
-	if(heapSize==1&&heap[0]==0){
-		printf("Heap is empty.\n");
-	}
-	else{
-		printf("Values:    %d\n", heap[0]);
-		printf("Indicies:  %d\n",0);
+int insertElement(int heap[], int currIndex, int value){
+	heap[currIndex] = value;
+	percUp(heap,currIndex);
+	currIndex = currIndex + 1;
+	return currIndex;
+}
+
+void deleteMin(int heap[], int currIndex){
+	int child1 = heap[1];
+	int child2 = heap[2];
+	/*Place last element at top!*/
+	heap[0] = heap[index];
+	/*Percolate number to next possible spot*/
+	percolateDown(heap,0,index);
+}
+void findMax(){
+
+}
+void increaseKey(){
+
+}
+void decreaseKey(){
+
+}
+void removeElement(){
+
+}
+
+void printHeap(int heap[],int currIndex){
+	int i=1,j,k=1;
+	while(i<5 && k<currIndex){
+		printf("Values:  ");
+		for(j=1;j<9;j++){
+			printf("%6d", heap[i*j]);
+			k++;
+			if(i*j==currIndex-1){
+				j=10;
+			}
+		}
+		printf("\n");
+		printf("Indicies:");
+		for(j=1;j<=k;j++){
+			printf("%6d", i*j);
+			if((i*j)==k-1){
+				break;
+			}
+		}
+		printf("\n\n");
+		i++;
 	}
 }
+void percUp(int* heap, int child){
+	int parent=1;
+	while(parent){
+		parent = (child-1)/2;
+		if(heap[parent] > heap[child]){
+			heap[parent] ^= heap[child];
+			heap[child] ^= heap[parent];
+			heap[parent] ^= heap[child];
+		}
+		child = parent;
+	}
+}
+
+void percDown(){
+	int swapChild;
+	int child1;
+	int child2;
+	while(1){
+		child1 = 2*parent+1;
+		child2 = 2*(parent+1);
+		swapChild = child1;
+		/*If childrens out of bounds, we have reached the end*/
+		if(child1 >= index && child2 >=index)
+			return;
+		/*If child2 is out of boundaries*/
+		if(child2 == index)
+			break;
+		if(heap[child2] < heap[child1])
+			swapChild = child2;
+		/*Swap appropriate child*/
+		if(heap[parent] > heap[swapChild]){
+			heap[parent] ^= heap[swapChild];
+			heap[swapChild] ^= heap[parent];
+			heap[parent] ^= heap[swapChild];
+		}
+		parent = swapChild;
+
+	}
+	/*Special case where only 1 child to compare*/
+	if(heap[parent] > heap[child1]){
+		heap[parent] ^= heap[child1];
+		heap[child1] ^= heap[parent];
+		heap[parent] ^= heap[child1];
+	}
+}
+
 /*
 prompt for user input
 
