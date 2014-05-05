@@ -97,9 +97,9 @@ int main(){
 }
 
 int deleteHeap(int heap[]){
-	/* input: heap aray */
-	/* output: empty heap and next empty index */
-	/* function reintializes array and counter */
+	/* input: heap array
+		output: empty heap and next empty index
+		function reintializes array and counter */
 	int i;
 	for(i=0;i<32;i++){
 		heap[i]=0;
@@ -108,9 +108,9 @@ int deleteHeap(int heap[]){
 }
 
 int buildHeap(int heap[], int nextIndex, char inBuff[]){
-	/* input: heap array, next empty index, input buffer */
-	/* output: heapified array, next empty index */
-	/* function puts integers from input buffer in array, then heapifies the array */
+	/* input: heap array, next empty index, input buffer
+		output: heapified array, next empty index
+		function puts integers from input buffer in array, then heapifies the array */
 	int i, temp;
 	char *myToken;
 	myToken = strtok(inBuff," ");
@@ -127,9 +127,9 @@ int buildHeap(int heap[], int nextIndex, char inBuff[]){
 }
 
 int insertElement(int heap[], int nextIndex, int value){
-	/* input: heap array, next empty index, value to insert */
-	/* output: heap array with element added, next empty index */
-	/* function puts new value on bottom of heap and percolates up if needed */
+	/* input: heap array, next empty index, value to insert
+		output: heap array with element added, next empty index
+		function puts new value on bottom of heap and percolates up if needed */
 	heap[nextIndex] = value;
 	percUp(heap,nextIndex);
 	nextIndex = nextIndex + 1;
@@ -137,15 +137,17 @@ int insertElement(int heap[], int nextIndex, int value){
 }
 
 int deleteMin(int heap[], int nextIndex){
-	/* input: heap array, next empty index */
-	/* output: heap array, next empty index */
-	/* function displays min value, removes it, puts last element at root, then perc down as needed */
+	/* input: heap array, next empty index
+		output: heap array, next empty index
+		function displays min value, removes it, puts last element at root, then perc down as needed */
 	if(nextIndex==1){
 		printf("\nNo heap available.\n");
 		return nextIndex;
 	}
 	else{
-		printf("\nThe minimum value of the heap was %d\n", heap[1]);
+		if(heap[1]>-9000){
+			printf("\nThe minimum value of the heap was %d\n", heap[1]);
+		}
 		heap[0]=heap[nextIndex-1];
 		percDown(heap,0,nextIndex);
 		return nextIndex-1;
@@ -153,9 +155,9 @@ int deleteMin(int heap[], int nextIndex){
 }
 
 void findMax(int heap[], int nextIndex){
-	/* input: heap array, next empty index */
-	/* output: heap array, output of max value found */
-	/* function searches leaves for max value */
+	/* input: heap array, next empty index
+		output: heap array, output of max value found
+		function searches leaves for max value */
 	int i, maxVal = heap[nextIndex/2];
 	if(nextIndex==1){
 		printf("\nNo heap available.\n");
@@ -172,17 +174,21 @@ void findMax(int heap[], int nextIndex){
 }
 
 void increaseKey(int heap[], int index, int value, int nextIndex){
-	/* input: heap array, index of element to change, amount to increase element, next empty element */
-	/* output: heap array */
-	/* function increases specified element by specified value and then percolates down as needed */
+	/* input: heap array, index of element to change, 
+			amount to increase element, next empty element
+		output: heap array
+		function increases specified element by specified
+			value and then percolates down as needed */
 	heap[index] = heap[index] + value;
 	percDown(heap,index,nextIndex);
 }
 
 void decreaseKey(int heap[],int index,int value){
-	/* input: heap array, index of value to change, amount to change specified value */
-	/* output: updated heap array */
-	/* function decreases specified element by specified value and then percolates up as needed */
+	/* input: heap array, index of value to change,
+			amount to change specified value
+		output: updated heap array
+		function decreases specified element by specified
+			value and then percolates up as needed */
 	heap[index] = heap[index]-value;
 	if (heap[index]<heap[index/2] && index>0){
 		percUp(heap,index);
@@ -190,17 +196,19 @@ void decreaseKey(int heap[],int index,int value){
 }
 
 int removeElement(int heap[], int index, int nextIndex){
-	/* input: heap array, index of element to remove, next empty index */
-	/* output: updated heap array, updated next empty index */
-	/* function will decrease specified value by 9999 and then delete the minimum value */
+	/* input: heap array, index of element to remove, next empty index
+		output: updated heap array, updated next empty index
+		function will decrease specified value by 9999 and then
+			delete the minimum value */
 	decreaseKey(heap,index,9999);
 	return deleteMin(heap,nextIndex);
 }
 
 void printHeap(int heap[],int nextIndex){
-	/* input: heap array, next empty index */
-	/* output: prints formated heap to console */
-	/* function prints heap to screen, 8 elements per row, stops when max value or final value is reached */
+	/* input: heap array, next empty index 
+		output: prints formated heap to console
+		function prints heap to screen, 8 elements per row,
+			stops when max value or final value is reached */
 	int i,j,k=0;
 	if(nextIndex<2){
 		return;
@@ -224,9 +232,10 @@ void printHeap(int heap[],int nextIndex){
 }
 
 void percUp(int heap[], int index){
-	/* input: heap array, index to manipulate */
-	/* output: updated heap array */
-	/* function will compare  */
+	/* input: heap array, index to manipulate 
+		output: updated heap array
+		function will compare passed index to parent node,
+		swap if needed, repeat until root or done */
 	if(heap[index]<heap[index/2] && index/2 > 0){
 		swapValues(heap,index/2,index);
 		index = index/2;
@@ -237,6 +246,11 @@ void percUp(int heap[], int index){
 }
 
 void percDown(int heap[], int parInd, int nextIndex){
+	/* input: heap array, index to manipulate, and next empty index
+		output: updated heap array 
+		function will compare passed index to child nodes,
+		if greater than child nodes will swap with smallest child
+		repeats until done or bottom of heap is hit */
 	int leftInd, rightInd, swapInd;
 	leftInd = parInd * 2;
 	rightInd = parInd * 2 + 1;
@@ -259,6 +273,10 @@ void percDown(int heap[], int parInd, int nextIndex){
 }
 
 void swapValues(int heap[], int a, int b){
+	/* input: heap array, 2 indexes to swap
+		output: updated heap array
+		function swaps to specified values
+			will not attempt to swap like values */
 	if(heap[a]==heap[b]){
 		return;
 	}
