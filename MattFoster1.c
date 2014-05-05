@@ -148,9 +148,8 @@ int deleteMin(int heap[], int nextIndex){
 		if(heap[1]>-9000){
 			printf("\nThe minimum value of the heap was %d\n", heap[1]);
 		}
-		heap[0]=heap[nextIndex-1];
-		percDown(heap,0,nextIndex);
-		heap[nextIndex]=0;
+		heap[1]=heap[nextIndex-1];
+		percDown(heap,1,nextIndex);
 		return nextIndex-1;
 	}
 }
@@ -253,15 +252,12 @@ void percDown(int heap[], int parInd, int nextIndex){
 		if greater than child nodes will swap with smallest child
 		repeats until done or bottom of heap is hit */
 	int leftInd, rightInd, swapInd;
-	printf("In the percDown function\n");
 	leftInd = parInd * 2;
 	rightInd = parInd * 2 + 1;
 	if(leftInd >= nextIndex && rightInd >= nextIndex){
-		printf("1\n");
 		return; /* children don't exist */
 	}
 	if(heap[parInd] < heap[leftInd] && heap[parInd] < heap[rightInd]){
-		printf("2\n");
 		return; /* children are larger than parent */
 	}
 	if(heap[leftInd] < heap[rightInd]){
@@ -269,20 +265,18 @@ void percDown(int heap[], int parInd, int nextIndex){
 	}
 	else if (heap[leftInd]>heap[rightInd] && rightInd >= nextIndex)
 		if(heap[leftInd]>heap[parInd]){
-			printf("3\n");
 			return; /* only child is greater than parent*/
 		}
 		else{
-			printf("4\n");
 			swapInd = leftInd;
 		}
 	else
-		printf("5\n");
 		swapInd = rightInd;
 	swapValues(heap,parInd,swapInd);
 	parInd = swapInd;
 	percDown(heap, swapInd,nextIndex);
 }
+
 
 void swapValues(int heap[], int a, int b){
 	/* input: heap array, 2 indexes to swap
